@@ -1,8 +1,9 @@
-const requestSender = require('./requestSender');
+const requestSenderAxios = require('./requestSenderAxios');
 
 async function main() {
-    const fulldata = await requestSender.sendJsonRequest();
-    console.log('data in app.js: ' + fulldata);
+    const data = await requestSenderAxios.sendRequest();
+    console.log('data in app.js:', data);
+    return data;
 }
 
 main();

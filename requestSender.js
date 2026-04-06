@@ -1,26 +1,32 @@
 const http = require('http');
-const path = require('path');
+const https = require('https');
 
 function sendRequest() {
+
+    dataToReturn = '';
+
     const options = {
-        hostname: 'httpbin.org',
-        path: '/get',
-        port: 80,
+        hostname: 'localhost',
+        path: '/api/users',
+        port: 3000,
         method: 'GET',
     };
 
 const request = http.request(options, (response) => {
-    console.log('getting data from server');
-    let data = '';
+    console.log('response received from server');
+    fulldata = '';
+    
     response.on('data', (chunk) => {
-        data += chunk;
+        fulldata += chunk;
     });
 
     response.on('end', () => {
-        console.log(data);
+        dataToReturn = fulldata;
     });
 });
-request.end();
+    request.end();
+    console.log('done');
+    return dataToReturn;
 }
 
 function sendJsonRequest() {
@@ -59,10 +65,8 @@ function sendAsyncJsonRequest() {
     const options = {
         hostname: 'httpbin.org',
         path: '/json',
-        port: 80,
         method: 'GET'
     };
-    dataToReturn = '';
 
     return new Promise((resolve, reject) => {
 
@@ -81,6 +85,7 @@ function sendAsyncJsonRequest() {
         response.on('error', (err) => {
             console.error('Error :', err);
             reject(err);
+
         });
     });
     request.end();
